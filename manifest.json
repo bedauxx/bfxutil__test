@@ -9,7 +9,7 @@
   }
   , "permissions": [ "http://127.0.0.1:8080/"]
   , "content_scripts": [ {
-    "matches": [ "https://lightning.bitflyer.jp/trade/*" ]
+    "matches": [ "https://lightning.bitflyer.jp/trade/*","https://rawgit.com/bedauxx/bfxutil__test/master/*" ]
     , "js": [ "./loader.js" ]
   } ]
 }
