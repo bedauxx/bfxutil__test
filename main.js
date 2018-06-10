@@ -1,31 +1,31 @@
 
 
 $(function() {
-  /* 
-  console.log("bfx util 0.1 loaded!");
-
-  console.log("どう?");
-  $("i.scrolllock.fa.fa-lock").trigger('clickstart');
-
-  console.log("どうどう?");
-  */
 /*********************
  * 
     orderbook表示
  * 
  ********************/
 
+
 $(window).on('load resize', function(){
   var orderbook_height = $("div#orderbook").height();
   var bid_ask_height = (orderbook_height - (25 + 25))/2;
   console.log("bid_ask_height : " + bid_ask_height);
 
+  $("section.chart").remove();
+  $("#orderbook").css('right','0');
   $(".orderbook__offers,.orderbook__bids").css('position','relative');
   $(".orderbook__offers,.orderbook__bids").css('height',bid_ask_height+'px');
+  $(".orderbook__offers,.orderbook__bids").css('overflow-y','hidden');
   $(".orderbook__offers .offer__inner").css('position','absolute');
   $(".orderbook__offers .offer__inner").css('bottom','0');
   $("orderbook__bids .bid__inner").css('position','absolute');
   $(".orderbook__offers .bid__inner").css('top','0');
+
+  $(".wrapper--trade .main--bottom").css("height","15%");
+  $(".wrapper--trade .main--bottom").css("max-height","15%");
+
 
   //$(".orderbook__offers .offer__inner , .orderbook__bids .bid__inner").css('overflow-y','scroll');
   //$(".orderbook__offers .offer__inner , .orderbook__bids .bid__inner").css('height',bid_ask_height+'px');
