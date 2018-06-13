@@ -1,12 +1,9 @@
-
-
 $(function() {
 /*********************
  * 
     orderbook表示
  * 
  ********************/
-
 
 $(window).on('load resize', function(){
   var orderbook_height = $("div#orderbook").height();
@@ -44,95 +41,187 @@ $(document).on('DOMSubtreeModified propertychange','.orderbook__offers .offer__i
       特定キー押下とオーダーブックの項目クリックでmaker/taker注文のテスト
 
   */
- var x_key_flag = false;
- var z_key_flag = false;
-  
-/* 
+ var shiftPressFlg = false;
+ var altPressFlg = false;
+//maker(x key == 88)
+//taker(z key == 90)
 
- $(window).on('keydown', function(e) {
-    if(e.keyCode === 88) {
-      if(x_key_flag == false){
-        x_key_flag = true;
-        z_key_flag = false;
+//shiftKey
+//altKey
+
+$(window).on('keydown', function(e) {
+    if(e.shiftKey == true) {
+        shiftPressFlg = true;
         $(".orderbook__offers").css("color","#ff00ff");
         $(".orderbook__bids").css("color","#ff00ff");
-        //console.log(x_key_flag);
-        return false;
-      }else{
-        x_key_flag = false;
-        $(".orderbook__offers").css("color","#e9546b");
-        $(".orderbook__bids").css("color","#3eb370");
-        //console.log(x_key_flag);
-        return false;
-      }
+        console.log("shift on maker mode");
     }
-    if(e.keyCode === 90) {
-      if(z_key_flag == false){
-        z_key_flag = true;
-        x_key_flag = false;
+    if(e.altKey == true) {
+        altPressFlg = true;
         $(".orderbook__offers").css("color","#5685f9");
         $(".orderbook__bids").css("color","#5685f9");
-        //console.log(z_key_flag);
-        return false;
-      }else{
-        z_key_flag = false;
-        $(".orderbook__offers").css("color","#e9546b");
-        $(".orderbook__bids").css("color","#3eb370");
-        //console.log(z_key_flag);
-        return false;
-      }
+        console.log("alt on maker mode");
     }
-  });
-
-  //maker(x key == 88)
-  $(document).on('click','.orderbook__offers .offer__inner li',function(e){
-    if(x_key_flag==true){
-      var board_ask_price = $(this).find("span.orderbook__price").text();
-      var board_ask_size = $(this).find("span.orderbook__size").text();
-      console.log("MAKER!! ASKS price : " + board_ask_price + " lot : " + board_ask_size);
-      $(".orderbook__offers").css("color","#e9546b");
-      $(".orderbook__bids").css("color","#3eb370");
-      x_key_flag = false;
-    }
-  });
-
-  //maker(x key == 88)
-  $(document).on('click','.orderbook__bids .bid__inner li',function(e){
-    if(x_key_flag==true){
-      var board_bid_price = $(this).find("span.orderbook__price").text();
-      var board_bid_size = $(this).find("span.orderbook__size").text();
-      console.log("MAKER!! BIDS price : " + board_bid_price + " lot : " + board_bid_size);
-      $(".orderbook__offers").css("color","#e9546b");
-      $(".orderbook__bids").css("color","#3eb370");
-      x_key_flag = false;
-    }
-  });
 
 
-  //taker(z key == 90)
-  $(document).on('click','.orderbook__offers .offer__inner li',function(e){
-    if(z_key_flag==true){
-      var board_ask_price = $(this).find("span.orderbook__price").text();
-      var board_ask_size = $(this).find("span.orderbook__size").text();
-      console.log("TAKER!! ASKS price : " + board_ask_price + " lot : " + board_ask_size);
-      $(".orderbook__offers").css("color","#e9546b");
-      $(".orderbook__bids").css("color","#3eb370");
-      z_key_flag = false;
-    }
+    //maker ask
+    $(document).on('click','.orderbook__offers .offer__inner li',function(e){
+        if(shiftPressFlg == true){
+            var board_ask_price = $(this).find("span.orderbook__price").text();
+            var board_ask_size = $(this).find("span.orderbook__size").text();
+            console.log("MAKER!! ASKS price : " + board_ask_price + " lot : " + board_ask_size);
+            shiftPressFlg = false;
+            return false;
+        }
+    });
+    //maker bid
+    $(document).on('click','.orderbook__bids .bid__inner li',function(e){
+        if(shiftPressFlg == true){
+            var board_bid_price = $(this).find("span.orderbook__price").text();
+            var board_bid_size = $(this).find("span.orderbook__size").text();
+            console.log("MAKER!! BIDS price : " + board_bid_price + " lot : " + board_bid_size);
+            shiftPressFlg = false;
+            return false;
+        }
+    });
+
+    //taker ask
+    $(document).on('click','.orderbook__offers .offer__inner li',function(e){
+        if(altPressFlg == true){
+            var board_ask_price = $(this).find("span.orderbook__price").text();
+            var board_ask_size = $(this).find("span.orderbook__size").text();
+            console.log("TAKER!! ASKS price : " + board_ask_price + " lot : " + board_ask_size);
+            altPressFlg = false;
+            return false;
+        }
+    });
+    
+    //taker bid
+    $(document).on('click','.orderbook__bids .bid__inner li',function(e){
+        if(altPressFlg == true){
+            var board_bid_price = $(this).find("span.orderbook__price").text();
+            var board_bid_size = $(this).find("span.orderbook__size").text();
+            console.log("TAKER!! BIDS price : " + board_bid_price + " lot : " + board_bid_size);
+            altPressFlg = false;
+            return false;
+        }
+    });
+
+
   });
-  //taker(z key == 90)
-  $(document).on('click','.orderbook__bids .bid__inner li',function(e){
-    if(z_key_flag==true){
-    var board_bid_price = $(this).find("span.orderbook__price").text();
-    var board_bid_size = $(this).find("span.orderbook__size").text();
-    console.log("TAKER!! BIDS price : " + board_bid_price + " lot : " + board_bid_size);
+
+
+
+
+
+  $(window).on('keyup', function(e) {
+    shiftPressFlg = false;
+    altPressFlg = false;
     $(".orderbook__offers").css("color","#e9546b");
     $(".orderbook__bids").css("color","#3eb370");
-    z_key_flag = false;
+    console.log("off");
+    return false;
+  })
+
+
+
+
+
+
+
+
+/*
+ $(window).on('keydown', function(e) {
+    if(e.keyCode === 88) {
+        e.preventDefault();
+        shiftPressFlg = true;
+        $(".orderbook__offers").css("color","#ff00ff");
+        $(".orderbook__bids").css("color","#ff00ff");
+        console.log("shift on maker mode");
+        return false;
     }
+    if(e.keyCode === 90) {
+        e.preventDefault();
+        altPressFlg = true;
+        $(".orderbook__offers").css("color","#5685f9");
+        $(".orderbook__bids").css("color","#5685f9");
+        console.log("alt on maker mode");
+        return false;
+    }
+
+
+    //maker ask
+    $(document).on('click','.orderbook__offers .offer__inner li',function(e){
+        if(shiftPressFlg == true){
+            var board_ask_price = $(this).find("span.orderbook__price").text();
+            var board_ask_size = $(this).find("span.orderbook__size").text();
+            console.log("MAKER!! ASKS price : " + board_ask_price + " lot : " + board_ask_size);
+            shiftPressFlg = false;
+            return false;
+        }
+    });
+    //maker bid
+    $(document).on('click','.orderbook__bids .bid__inner li',function(e){
+        if(shiftPressFlg == true){
+            var board_bid_price = $(this).find("span.orderbook__price").text();
+            var board_bid_size = $(this).find("span.orderbook__size").text();
+            console.log("MAKER!! BIDS price : " + board_bid_price + " lot : " + board_bid_size);
+            shiftPressFlg = false;
+            return false;
+        }
+    });
+
+    //taker ask
+    $(document).on('click','.orderbook__offers .offer__inner li',function(e){
+        if(altPressFlg == true){
+            var board_ask_price = $(this).find("span.orderbook__price").text();
+            var board_ask_size = $(this).find("span.orderbook__size").text();
+            console.log("TAKER!! ASKS price : " + board_ask_price + " lot : " + board_ask_size);
+            altPressFlg = false;
+            return false;
+        }
+    });
+    
+    //taker bid
+    $(document).on('click','.orderbook__bids .bid__inner li',function(e){
+        if(altPressFlg == true){
+            var board_bid_price = $(this).find("span.orderbook__price").text();
+            var board_bid_size = $(this).find("span.orderbook__size").text();
+            console.log("TAKER!! BIDS price : " + board_bid_price + " lot : " + board_bid_size);
+            altPressFlg = false;
+            return false;
+        }
+    });
+
+
   });
 
+
+
+ */
+
+
+
+
+
+/*
+
+
+
+
+
+
+
+
 */
+
+
+
+
+
+
+
+
   /*  
   
 div#orderbook
